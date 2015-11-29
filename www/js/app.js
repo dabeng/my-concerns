@@ -40,41 +40,41 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.schedule', {
+    url: '/schedule',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-schedule': {
+        templateUrl: 'templates/tab-schedule.html',
+        controller: 'ScheduleCtrl'
       }
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.countdowns', {
+      url: '/countdowns',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-countdowns': {
+          templateUrl: 'templates/tab-countdowns.html',
+          controller: 'CountdownsCtrl'
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.countdown-detail', {
+      url: '/countdowns/:countdownId',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'tab-countdowns': {
+          templateUrl: 'templates/countdown-detail.html',
+          controller: 'CountdownDetailCtrl'
         }
       }
     })
 
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.concern', {
+    url: '/concern',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-concern': {
+        templateUrl: 'templates/tab-concern.html',
+        controller: 'ConcernCtrl'
       }
     }
   });
