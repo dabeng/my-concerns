@@ -1,7 +1,10 @@
 My Concerns
 =====================
 
-A starting project for Ionic that optionally supports using custom SCSS.
+How long has it been since you last accompanied parents to travel?
+How long has it been since you last had a dinner for two with your wife?
+How long has it been since you last applauded your children in school plays or school sports?
+If you have no idea, "My Concerns" will be a big help for you.
 
 ## Using this project
 
