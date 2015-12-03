@@ -30,6 +30,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'reminder', 'countdown', 'conce
     }
 
     $cordovaSQLite.execute($rootScope.db, "CREATE TABLE IF NOT EXISTS countdown(id integer primary key autoincrement, special_day text, content text)");
+    /*
+     * the following code snippets show us how to provide pre-populated data for SQLite
+     *
     var query = "INSERT INTO countdown (special_day, content) VALUES (?,?)";
     $cordovaSQLite.execute($rootScope.db, query, [new Date(), 'Birthday']).then(function(res) {
       console.log("insertId: " + res.insertId);
@@ -39,6 +42,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'reminder', 'countdown', 'conce
     $cordovaSQLite.execute($rootScope.db, query, [new Date(), 'Birthday2']);
     $cordovaSQLite.execute($rootScope.db, query, [new Date(), 'Birthday3']);
     $cordovaSQLite.execute($rootScope.db, query, [new Date(), 'Birthday4']);
+    */
   });
 })
 

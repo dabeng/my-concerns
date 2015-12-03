@@ -4,10 +4,11 @@ angular.module('countdown').controller('CountdownsCtrl', function($scope, Countd
   // To listen for when this page is active (for example, to refresh data),
   // listen for the $ionicView.enter event:
   //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+  $scope.$on('$ionicView.enter', function(e) {
+    $scope.countdowns = Countdown.all();
+  });
 
-  $scope.countdowns = Countdown.all();
+  // $scope.countdowns = Countdown.all();
   $scope.remove = function(countdown) {
     Countdowns.remove(countdown);
   };
