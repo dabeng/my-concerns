@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('countdown').factory('Countdown', function($cordovaSQLite, $rootScope, $q, $ionicPlatform) {
+angular.module('countdown').factory('Countdown', function($cordovaSQLite, $rootScope, $ionicPlatform) {
 var self = this;
 
 

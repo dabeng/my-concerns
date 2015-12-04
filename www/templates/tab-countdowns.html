@@ -3,8 +3,8 @@
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="countdown in countdowns" type="item-text-wrap" href="#/tab/countdowns/{{countdown.id}}">
         <!--<img ng-src="{{countdown.face}}">-->
-        <h2>{{countdown.special_day}}</h2>
-        <p>{{countdown.content}}</p>
+        <h2>{{countdown.content}}</h2>
+        <p>{{countdown.special_day}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
         <ion-option-button class="button-assertive" ng-click="remove(countdown)">
