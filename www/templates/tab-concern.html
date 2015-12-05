@@ -9,6 +9,10 @@
         <span class="input-label">Content</span>
         <input type="text" placeholder="Birthday" ng-model="fields.content">
       </label>
+      <div class="item item-input item-stacked-label">
+        <span class="input-label">Cover</span>
+        <img id="concern-cover" ng-src="{{fields.imageSrc}}" ng-click="setCover()">
+      </div>
     </ion-list>
       <div class="padding">
         <button class="button button-block button-positive" ng-click="create()">Create</button>
