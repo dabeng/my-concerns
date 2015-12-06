@@ -31,6 +31,10 @@ angular.module('concern').controller('ConcernCtrl',
             options = {
               destinationType: Camera.DestinationType.FILE_URI,
               sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+              allowEdit: true,
+              encodingType: Camera.EncodingType.JPEG,
+              targetWidth: 300,
+              targetHeight: 300
             };
           }
           $cordovaCamera.getPicture(options).then(function(imageSrc) {
@@ -42,6 +46,10 @@ angular.module('concern').controller('ConcernCtrl',
           }, function(err) {
             // error
           });
+          if (index === 1) {
+            // $cordovaCamera.cleanup(); // only for FILE_URI
+          }
+          return true;
         }
       });
   };
