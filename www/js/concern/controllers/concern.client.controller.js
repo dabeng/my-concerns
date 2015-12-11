@@ -1,5 +1,5 @@
 angular.module('concern').controller('ConcernCtrl',
-  function($scope, $rootScope, $ionicActionSheet, $cordovaCamera, $cordovaSQLite) {
+  function($scope, $rootScope, $ionicActionSheet, $cordovaCamera, $cordovaFile, $cordovaSQLite) {
   $scope.fields = {'imageSrc':'img/picture.png'};
 
   $scope.setCover = function() {
@@ -17,7 +17,7 @@ angular.module('concern').controller('ConcernCtrl',
           if (index === 0) {
             options = {
               quality: 50,
-              destinationType: Camera.DestinationType.DATA_URL,
+              destinationType: Camera.DestinationType.FILE_URI,
               sourceType: Camera.PictureSourceType.CAMERA,
               allowEdit: true,
               encodingType: Camera.EncodingType.JPEG,
@@ -37,12 +37,25 @@ angular.module('concern').controller('ConcernCtrl',
               targetHeight: 300
             };
           }
-          $cordovaCamera.getPicture(options).then(function(imageSrc) {
-            if (index === 0) {
-              $scope.fields.imageSrc = 'data:image/jpeg;base64,' + imageSrc;
-            } else if (index === 1) {
-              $scope.fields.imageSrc = imageSrc;
-            }
+          $cordovaCamera.getPicture(options).then(function(sourcePath) {
+            // if (index === 0) {
+              // $scope.fields.imageSrc = 'data:image/jpeg;base64,' + imageSrc;
+            // } else if (index === 1) {
+              // $scope.fields.imageSrc = imageSrc;
+            // }
+      var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
+      var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1);
+      var targetPath = sourceDirectory.slice(0, sourceDirectory.lastIndexOf('/', sourceDirectory.length-2)+1)
+        + 'files/';
+
+      console.log("Copying : " + sourceDirectory + sourceFileName);
+      console.log("Copying " + cordova.file.dataDirectory + sourceFileName);
+      $cordovaFile.copyFile(sourceDirectory, sourceFileName, targetPath, sourceFileName).then(function(success) {
+         // $scope.fields.content = cordova.file.dataDirectory + sourceFileName;
+           $scope.fields.content = 'good'
+         }, function(error) {
+         $scope.fields.content = 'bad';
+      });
           }, function(err) {
             // error
           });
@@ -55,13 +68,23 @@ angular.module('concern').controller('ConcernCtrl',
   };
 
   $scope.create = function() {
-    var query = 'INSERT INTO countdown (special_day, content) VALUES (?,?)';
-    $cordovaSQLite.execute($rootScope.db, query, [$scope.fields.special_day.toDateString(), $scope.fields.content]).then(function(res) {
-      $scope.fields = {'imageSrc':'img/picture.png'};
-      console.log('insertid: ' + res.insertId);
-    }, function (err) {
-      console.error(err);
-    });
+    // var query = 'INSERT INTO countdown (special_day, content) VALUES (?,?)';
+    // $cordovaSQLite.execute($rootScope.db, query, [$scope.fields.special_day.toDateString(), $scope.fields.content]).then(function(res) {
+    //   $scope.fields = {'imageSrc':'img/picture.png'};
+    //   console.log('insertid: ' + res.insertId);
+    // }, function (err) {
+    //   console.error(err);
+    // });
+// $scope.fields.content = cordova.file.dataDirectory;
+  $cordovaFile.createFile(cordova.file.dataDirectory, 'newd', true).then(function(success){
+ 
+  //   //success.nativeURL will contain the path to the photo in permanent storage, do whatever you wish with it, e.g:
+    $scope.fields.content = success.nativeURL;
+  }, function(err){
+  //   //an error occured
+    $scope.fields.content = err.code;
+  //   // console.error(err);
+  });
   }
   
 });
