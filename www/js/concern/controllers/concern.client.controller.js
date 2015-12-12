@@ -37,31 +37,22 @@ angular.module('concern').controller('ConcernCtrl',
               targetHeight: 300
             };
           }
-          $cordovaCamera.getPicture(options).then(function(sourcePath) {
-            // if (index === 0) {
-              // $scope.fields.imageSrc = 'data:image/jpeg;base64,' + imageSrc;
-            // } else if (index === 1) {
-              // $scope.fields.imageSrc = imageSrc;
-            // }
-      var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
-      var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1);
-      var targetPath = sourceDirectory.slice(0, sourceDirectory.lastIndexOf('/', sourceDirectory.length-2)+1)
-        + 'files/';
+          $cordovaCamera.getPicture(options).then(function(imageSrc) {
+            var sourcePath = imageSrc.slice(0, imageSrc.lastIndexOf('/') + 1);
+            var sourceFileName = imageSrc.slice(imageSrc.lastIndexOf('/') + 1, imageSrc.lastIndexOf('?'));
+            var targetPath = cordova.file.externalDataDirectory;
+            var targetFileName = (new Date()).getTime() + '.jpg';
 
-      console.log("Copying : " + sourceDirectory + sourceFileName);
-      console.log("Copying " + cordova.file.dataDirectory + sourceFileName);
-      $cordovaFile.copyFile(sourceDirectory, sourceFileName, targetPath, sourceFileName).then(function(success) {
-         // $scope.fields.content = cordova.file.dataDirectory + sourceFileName;
-           $scope.fields.content = 'good'
-         }, function(error) {
-         $scope.fields.content = 'bad';
-      });
+            $cordovaFile.moveFile(sourcePath, sourceFileName, targetPath, targetFileName)
+              .then(function(success) {
+                $scope.fields.imageSrc = success.nativeURL;
+              }, function(err) {
+                console.log(err.code);
+              });
           }, function(err) {
-            // error
+            console.log(err);
           });
-          if (index === 1) {
-            // $cordovaCamera.cleanup(); // only for FILE_URI
-          }
+
           return true;
         }
       });
