@@ -1,6 +1,10 @@
 angular.module('concern').controller('ConcernCtrl',
-  function($scope, $rootScope, $ionicActionSheet, $cordovaCamera, $cordovaFile, $cordovaSQLite) {
+  function($scope, $rootScope, $window, $cordovaFileError, $ionicActionSheet, $cordovaCamera, $cordovaFile, $cordovaSQLite) {
   $scope.fields = {'imageSrc':'img/picture.png'};
+
+  var outputError = function(err) {
+    console.log($cordovaFileError[error.code]);
+  };
 
   $scope.setCover = function() {
     $ionicActionSheet.show({
@@ -38,6 +42,36 @@ angular.module('concern').controller('ConcernCtrl',
             };
           }
           $cordovaCamera.getPicture(options).then(function(imageSrc) {
+            var sourcePath = sourceFileName = targetPath = targetFileName = '';
+            if (index === 0) {
+              $window.resolveLocalFileSystemURL(cordova.file.externalCacheDirectory, function (dirEntry) {
+                dirEntry.createReader().readEntries(function(pictures) {
+                  sourcePath = cordova.file.externalCacheDirectory;
+                  sourceFileName = pictures[0].name;
+                  targetPath = cordova.file.externalDataDirectory;
+                  targetFileName = sourceFileName;
+                  // move the cropped picture to app persistent storage
+                  $cordovaFile.moveFile(sourcePath, sourceFileName, targetPath, targetFileName)
+                    .then(function(success) {
+                      $scope.fields.imageSrc = success.nativeURL;
+                      // remove the redundant original picture from cache
+                      $cordovaFile.removeFile(sourcePath, pictures[1].name)
+                        .then(function (success) {
+                          // success
+                        }, function (error) {
+                          outputError(error);
+                        });
+                    }, function(error) {
+                      outputError(error);
+                    });
+                
+                },function(error) {
+                  outputError(error);
+                });
+              }, function (error) {
+                outputError(error);
+              });
+            } else if (index === 1) {
             var sourcePath = imageSrc.slice(0, imageSrc.lastIndexOf('/') + 1);
             var sourceFileName = imageSrc.slice(imageSrc.lastIndexOf('/') + 1, imageSrc.lastIndexOf('?'));
             var targetPath = cordova.file.externalDataDirectory;
@@ -46,11 +80,12 @@ angular.module('concern').controller('ConcernCtrl',
             $cordovaFile.moveFile(sourcePath, sourceFileName, targetPath, targetFileName)
               .then(function(success) {
                 $scope.fields.imageSrc = success.nativeURL;
-              }, function(err) {
-                console.log(err.code);
+              }, function(error) {
+                outputError(error);
               });
-          }, function(err) {
-            console.log(err);
+            }
+          }, function(error) {
+            outputError(error);
           });
 
           return true;
@@ -76,6 +111,6 @@ angular.module('concern').controller('ConcernCtrl',
     $scope.fields.content = err.code;
   //   // console.error(err);
   });
-  }
+  };
   
 });
