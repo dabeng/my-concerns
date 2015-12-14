@@ -29,7 +29,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'reminder', 'countdown', 'conce
       $rootScope.db = window.openDatabase('my-concerns', '1.0', 'testing db', 100 * 1024 * 1024);
     }
 
-    $cordovaSQLite.execute($rootScope.db, "CREATE TABLE IF NOT EXISTS countdown(id integer primary key autoincrement, special_day text, content text)");
+    $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS countdown(id integer primary key autoincrement, special_day text, content text, cover text)');
     /*
      * the following code snippets show us how to provide pre-populated data for SQLite
      *

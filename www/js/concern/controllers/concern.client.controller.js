@@ -94,23 +94,14 @@ angular.module('concern').controller('ConcernCtrl',
   };
 
   $scope.create = function() {
-    // var query = 'INSERT INTO countdown (special_day, content) VALUES (?,?)';
-    // $cordovaSQLite.execute($rootScope.db, query, [$scope.fields.special_day.toDateString(), $scope.fields.content]).then(function(res) {
-    //   $scope.fields = {'imageSrc':'img/picture.png'};
-    //   console.log('insertid: ' + res.insertId);
-    // }, function (err) {
-    //   console.error(err);
-    // });
-// $scope.fields.content = cordova.file.dataDirectory;
-  $cordovaFile.createFile(cordova.file.dataDirectory, 'newd', true).then(function(success){
- 
-  //   //success.nativeURL will contain the path to the photo in permanent storage, do whatever you wish with it, e.g:
-    $scope.fields.content = success.nativeURL;
-  }, function(err){
-  //   //an error occured
-    $scope.fields.content = err.code;
-  //   // console.error(err);
-  });
+    var query = 'INSERT INTO countdown (special_day, content, cover) VALUES (?,?,?)';
+    $cordovaSQLite.execute($rootScope.db, query,
+      [$scope.fields.special_day.toDateString(), $scope.fields.content, $scope.fields.imageSrc]).then(function(res) {
+        $scope.fields = {'imageSrc':'img/picture.png'};
+        console.log('insertid: ' + res.insertId);
+      }, function (err) {
+        console.error(err);
+      });
   };
   
 });
