@@ -19,7 +19,22 @@ var self = this;
       console.error(err);
     });
     return countdowns;
-  }
+  };
+
+  self.get = function(countdownId) {
+    var countdown = null;
+    $cordovaSQLite.execute($rootScope.db, 'SELECT * FROM countdown WHERE id=' + countdownId)
+    .then(function(res) {
+      if(res.rows.length > 0) {
+        countdown = res.rows.item(0);
+      } else {
+        console.log('No results found');
+      }
+    }, function (err) {
+      console.error(err);
+    });
+    return countdown;
+    }
 
 
 
