@@ -1,5 +1,6 @@
 angular.module('concern').controller('ConcernCtrl',
-  function($scope, $rootScope, $window, $cordovaFileError, $ionicActionSheet, $cordovaCamera, $cordovaFile, $cordovaSQLite) {
+  function($scope, $rootScope, $window, $cordovaFileError, $ionicActionSheet, $cordovaCamera,
+    $cordovaFile, $cordovaSQLite, $location) {
   $scope.fields = {'imageSrc':'img/picture.png'};
 
   var outputError = function(err) {
@@ -98,6 +99,7 @@ angular.module('concern').controller('ConcernCtrl',
     $cordovaSQLite.execute($rootScope.db, query,
       [$scope.fields.special_day.toDateString(), $scope.fields.content, $scope.fields.imageSrc]).then(function(res) {
         $scope.fields = {'imageSrc':'img/picture.png'};
+        $location.path('/tab/countdowns');
         console.log('insertid: ' + res.insertId);
       }, function (err) {
         console.error(err);
