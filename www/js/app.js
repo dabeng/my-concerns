@@ -26,7 +26,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'reminder', 'countdown', 'conce
       $rootScope.db = $cordovaSQLite.openDB({'name': 'my-concerns.db' });
     } else {
       // the code using WebSQL of brower
-      $rootScope.db = window.openDatabase('my-concerns', '1.0', 'testing db', 100 * 1024 * 1024);
+      $rootScope.db = window.openDatabase('my-concerns', '1.0', 'testing db', -1);
     }
 
     $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS countdown(id integer primary key autoincrement, special_day text, content text, cover text)');

@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('countdown', []);
+angular.module('countdown', ['common']);

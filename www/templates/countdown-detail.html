@@ -7,8 +7,7 @@
 <ion-view view-title="{{countdown.special_day}}">
   <ion-content class="padding">
     <img ng-src="{{countdown.cover}}" style="width: 64px; height: 64px">
-    <p>
-      {{countdown.content}}
-    </p>
+    <p ng-bind="countdown.content"></p>
+   
   </ion-content>
 </ion-view>

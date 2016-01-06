@@ -5,7 +5,9 @@ angular.module('countdown').controller('CountdownsCtrl', function($scope, Countd
   // listen for the $ionicView.enter event:
   //
   $scope.$on('$ionicView.enter', function(e) {
-    $scope.countdowns = Countdown.all();
+    Countdown.all().then(function(countdowns){
+      $scope.countdowns = countdowns;
+    });
   });
 
   // $scope.countdowns = Countdown.all();
